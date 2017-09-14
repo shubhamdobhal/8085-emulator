@@ -1,7 +1,7 @@
 //airthmatic
 
 //10 ADD
-void add(int registers[],char operand){
+void add(char operand){
 	switch(operand){
 		case B:
 			registers[0]+=registers[1];
@@ -28,30 +28,49 @@ void add(int registers[],char operand){
 		default:
 			throw(exception);
 	}
+	if(registers[0]>255){
+		flag[c]=1;
+		registers[0]-=256;
+	}
 }
 
 //11 ADI
-int add_immidiate(int A,int val){
+void add_immidiate(int val){
 	if(val/1000>0){
 		throw(exception);
 	}
 	val=hextodec(val);
-	A+=val;
-	return A;
+	registers[0]+=val;
+	if(registers[0]>255){
+		flag[c]=1;
+		registers[0]-=256;
+	}
+	if(registers[0]>255){
+		flag[c]=1;
+		registers[0]-=256;
+	}
 }
  
 //12 ADC
 int add_carry(int A,char operand){
-	return add(A,operand)+1;
+	registers[0] = add(operand)+flag[4];
+	if(registers[0]>255){
+		flag[c]=1;
+		registers[0]-=256;
+	}
 }
 
 //13 ACI
 int add_carry_immidiate(int A,int val){
-	return add_immidiate(A,operand)+1;
+	registers[0]=add_immidiate(A,operand)+1;
+	if(registers[0]>255){
+		flag[c]=1;
+		registers[0]-=256;
+	}
 }
 
 //14 SUB
-void sub(int registers[],char operand){
+void sub(char operand){
 	switch(operand){
 		case B:
 			registers[0]-=registers[1];
@@ -78,26 +97,45 @@ void sub(int registers[],char operand){
 		default:
 			throw(exception);
 	}
+	if(registers[0]<0){
+		flag[0]=1;
+		flag[4]=1;
+		registers[0]+=256;
+	}
 }
 
 //15 SUI
-int sub_immidiate(int A,int val){
+void sub_immidiate(int val){
 	if(val/1000>0){
 		throw(exception);
 	}
 	val=hextodec(val);
-	A-=val;
-	return A;
+	registers[0]-=val;
+	if(registers[0]<0){
+		flag[0]=1;
+		flag[4]=1;
+		registers[0]+=256;
+	}
 }
 
 //16 SBB
-int sub_borrow(int A,char operand){
-	return sub(A,operand)-flag[0];
+void sub_borrow(char operand){
+	registeres[0] = sub(operand)-flag[0];
+	if(registers[0]<0){
+		flag[0]=1;
+		flag[4]=1;
+		registers[0]+=256;
+	}
 }
 
 //17 SBI
-int sub_borrow_immidiate(int A,int val){
-	return sub_immidiate(A,val)-flag[0];
+int sub_borrow_immidiate(int val){
+	registers = sub_immidiate(A,val)-flag[0];
+	if(registers[0]<0){
+		flag[0]=1;
+		flag[4]=1;
+		registers[0]+=256;
+	}
 }
 
 //18 LXI
@@ -109,7 +147,7 @@ void inst_LXI(int registers[],int val){
 }
 
 //19 INR
-void increment(int registers[],char operand){
+void increment(char operand){
 	switch(operand){
 		case A:
 			registers[0]++;
