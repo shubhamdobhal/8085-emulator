@@ -1,0 +1,6 @@
+2000
+MVI A,10
+STA B
+HALT
+
+"CMA","CMP","JMP","JC","JNC","JZ","JNZ"};
