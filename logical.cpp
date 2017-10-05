@@ -2,8 +2,10 @@ void CMA()
 {
 	registers[0]=255-registers[0];
 }
-void CMP(int a,int b)
+void CMP(char operand)
 {
+		switch(operand)
+		{
 			case A:
 				FLAG[1]=1;	
 			break;
@@ -115,8 +117,9 @@ void CMP(int a,int b)
 			break;
 			default:
 			throw(exception);
+		}
 }
-void SET(int a,int b)
+void SET(int a)
 {
 	memory[a]=b;
 }
@@ -126,4 +129,118 @@ void CMC
 	FLAG[4]=0;
 	else
 	FLAG[4]=1;
+}
+void ANA(char operand)
+{
+	switch(operand)
+	{
+			case A:
+				registers[0]=registers[0]&registers[0];
+			break;
+			case B:			
+				registers[0]=registers[0]&registers[1];
+			break;
+			case C:
+				registers[0]=registers[0]&registers[2];	
+			break;
+			case D:
+				registers[0]=registers[0]&registers[3];	
+			break;
+			case E:
+				registers[0]=registers[0]&registers[4];	
+			break;
+			case H:
+				registers[0]=registers[0]&registers[5];	
+			break;
+			case L:
+				registers[0]=registers[0]&registers[6];	
+			break;
+			case M:
+			int address=registers[5]*256+registers[6];
+				registers[0]=registers[0]&memory[address];
+			break;
+			default:
+			throw(exception);
+		
+	}
+}
+void ANI(int a)
+{
+	registers[0]=registers[0]&a;
+}
+void XRA(char operand)
+{
+	switch(operand)
+	{
+			case A:
+				registers[0]=registers[0]^registers[0];
+			break;
+			case B:			
+				registers[0]=registers[0]^registers[1];
+			break;
+			case C:
+				registers[0]=registers[0]^registers[2];	
+			break;
+			case D:
+				registers[0]=registers[0]^registers[3];	
+			break;
+			case E:
+				registers[0]=registers[0]^registers[4];	
+			break;
+			case H:
+				registers[0]=registers[0]^registers[5];	
+			break;
+			case L:
+				registers[0]=registers[0]^registers[6];	
+			break;
+			case M:
+			int address=registers[5]*256+registers[6];
+				registers[0]=registers[0]^memory[address];
+			break;
+			default:
+			throw(exception);
+		
+	}
+}
+void XRI(int a)
+{
+	registers[0]=registers[0]^a;
+}
+void ORA(char operand)
+{
+	switch(operand)
+	{
+			case A:
+				registers[0]=registers[0]|registers[0];
+			break;
+			case B:			
+				registers[0]=registers[0]|registers[1];
+			break;
+			case C:
+				registers[0]=registers[0]|registers[2];	
+			break;
+			case D:
+				registers[0]=registers[0]|registers[3];	
+			break;
+			case E:
+				registers[0]=registers[0]|registers[4];	
+			break;
+			case H:
+				registers[0]=registers[0]|registers[5];	
+			break;
+			case L:
+				registers[0]=registers[0]|registers[6];	
+			break;
+			case M:
+			int address=registers[5]*256+registers[6];
+				registers[0]=registers[0]|memory[address];
+			break;
+			default:
+			throw(exception);
+		
+	}
+}
+void ORI(int a)
+{
+	registers[0]=registers[0]|a;
 }
