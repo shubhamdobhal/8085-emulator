@@ -37,6 +37,10 @@ void ANA(char operand)		//logical and with accumulator
 	else
 	{
 		int address=registers['H']*256+registers['L'];
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']=registers['A']&memory[address];
 	}
 }
@@ -52,6 +56,10 @@ void XRA(char operand)	//xor with accumulator
 	else
 	{
 		int address=registers['H']*256+registers['L'];
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']=registers['A']^memory[address];
 	}
 }
@@ -67,6 +75,10 @@ void ORA(char operand)	//or with accumulator
 	else
 	{
 		int address=registers['H']*256+registers['L'];
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']=registers['A']|memory[address];
 	}
 }
