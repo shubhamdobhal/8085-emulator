@@ -1,246 +1,139 @@
 void CMA()
 {
-	registers[0]=255-registers[0];
+	registers['A']=255-registers['A'];
 }
 void CMP(char operand)
 {
-		switch(operand)
-		{
-			case A:
-				FLAG[1]=1;	
-			break;
-			case B:			
-			if(registers[0]>registers[1])
+			if(registers['A']>registers[operand])
 			{
-				FLAG[4]=0;
-				FLAG[1]=0;
+				flag['c']=0;
+				flag['z']=0;
 			}
-			else if(registers[0]==registers[1])
+			else if(registers['A']==registers[operand])
 			{
-				FLAG[1]=1;	
+				flag['z']=1;	
 			}	
 			else
 			{
-				FLAG[4]=1;
+				flag['c']=1;
 			}								
-			break;
-			case C:
-			if(registers[0]>registers[2])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==registers[2])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			case D:
-			if(registers[0]>registers[3])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==registers[3])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			case E:
-			if(registers[0]>registers[4])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==registers[4])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			case H:
-			if(registers[0]>registers[5])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==registers[5])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			case L:
-			if(registers[0]>registers[6])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==registers[6])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			case M:
-			int address=registers[5]*256+registers[6];
-			if(registers[0]>memory[address])
-			{
-				FLAG[4]=0;
-				FLAG[1]=0;
-			}
-			else if(registers[0]==memory[address])
-			{
-				FLAG[1]=1;	
-			}	
-			else
-			{
-				FLAG[4]=1;
-			}	
-			break;
-			default:
-			throw(exception);
-		}
+		
 }
-void SET(int a)
+void SET(string mem,string val)
 {
-	memory[a]=b;
+	memory[hextodec(mem)]=hextodec(val);
 }
-void CMC
+void CMC()
 {
-	if(FLAG[4]==1)
-	FLAG[4]=0;
+	if(flag['c']==1)
+	flag['c']=0;
 	else
-	FLAG[4]=1;
+	flag['c']=1;
 }
 void ANA(char operand)
 {
-	switch(operand)
+	if(operand!='M')
+	registers['A']=registers['A']&registers[operand];
+	else
 	{
-			case A:
-				registers[0]=registers[0]&registers[0];
-			break;
-			case B:			
-				registers[0]=registers[0]&registers[1];
-			break;
-			case C:
-				registers[0]=registers[0]&registers[2];	
-			break;
-			case D:
-				registers[0]=registers[0]&registers[3];	
-			break;
-			case E:
-				registers[0]=registers[0]&registers[4];	
-			break;
-			case H:
-				registers[0]=registers[0]&registers[5];	
-			break;
-			case L:
-				registers[0]=registers[0]&registers[6];	
-			break;
-			case M:
-			int address=registers[5]*256+registers[6];
-				registers[0]=registers[0]&memory[address];
-			break;
-			default:
-			throw(exception);
-		
+		int address=registers['H']*256+registers['L'];
+		registers['A']=registers['A']&memory[address];
 	}
 }
 void ANI(int a)
 {
-	registers[0]=registers[0]&a;
+	registers['A']=registers['A']&a;
 }
 void XRA(char operand)
 {
-	switch(operand)
+	if(operand!='M')
+	registers['A']=registers['A']^registers[operand];
+	else
 	{
-			case A:
-				registers[0]=registers[0]^registers[0];
-			break;
-			case B:			
-				registers[0]=registers[0]^registers[1];
-			break;
-			case C:
-				registers[0]=registers[0]^registers[2];	
-			break;
-			case D:
-				registers[0]=registers[0]^registers[3];	
-			break;
-			case E:
-				registers[0]=registers[0]^registers[4];	
-			break;
-			case H:
-				registers[0]=registers[0]^registers[5];	
-			break;
-			case L:
-				registers[0]=registers[0]^registers[6];	
-			break;
-			case M:
-			int address=registers[5]*256+registers[6];
-				registers[0]=registers[0]^memory[address];
-			break;
-			default:
-			throw(exception);
-		
+		int address=registers['H']*256+registers['L'];
+		registers['A']=registers['A']^memory[address];
 	}
 }
 void XRI(int a)
 {
-	registers[0]=registers[0]^a;
+	registers'A'=registers['A']^a;
 }
 void ORA(char operand)
 {
-	switch(operand)
+	if(operand!='M')
+	registers['A']=registers['A']|registers[operand];
+	else
 	{
-			case A:
-				registers[0]=registers[0]|registers[0];
-			break;
-			case B:			
-				registers[0]=registers[0]|registers[1];
-			break;
-			case C:
-				registers[0]=registers[0]|registers[2];	
-			break;
-			case D:
-				registers[0]=registers[0]|registers[3];	
-			break;
-			case E:
-				registers[0]=registers[0]|registers[4];	
-			break;
-			case H:
-				registers[0]=registers[0]|registers[5];	
-			break;
-			case L:
-				registers[0]=registers[0]|registers[6];	
-			break;
-			case M:
-			int address=registers[5]*256+registers[6];
-				registers[0]=registers[0]|memory[address];
-			break;
-			default:
-			throw(exception);
-		
+		int address=registers['H']*256+registers['L'];
+		registers['A']=registers['A']|memory[address];
 	}
 }
 void ORI(int a)
 {
-	registers[0]=registers[0]|a;
+	registers['A']=registers['A']|a;
 }
+void RLC()
+{
+	string aBin;
+	int i;
+	char temp;
+	aBin=dectobin(registers['A']);
+	flag['c']=aBin[aBin.size()-1]-'0';
+	temp=aBin[aBin.size()-1];
+	for(i=aBin.size()-2;i>=0;i--)
+	{
+		aBin[i+1]=aBin[i];
+	}
+	aBin[0]=temp;
+	registers['A']=bintodec(aBin);
+}
+void RRC()
+{
+	string aBin;
+	int i;
+	char temp;
+	aBin=dectobin(registers['A']);
+	flag['c']=aBin[0]-'0';
+	temp=aBin[0];
+	for(i=0;i<aBin.size()-1;i++)
+	{
+		aBin[i]=aBin[i+1];
+	}
+	aBin[aBin.size()-1]=temp;
+	registers['A']=bintodec(aBin);
+	
+}
+void RAL()
+{
+	string aBin;
+	int i;
+	char temp;
+	aBin=dectobin(registers['A']);
+	temp=flag['c'];
+	flag['c']=aBin[aBin.size()-1];
+	for(i=aBin.size()-2;i>=0;i--)
+	{
+		aBin[i+1]=aBin[i];
+	}
+	aBin[0]=temp;
+}
+void RAR()
+{
+	string aBin;
+	int i;
+	char temp;
+	aBin=dectobin(registers['A']);
+	temp=flag['c'];
+	flag['c']=aBin[0];
+	for(i=0;i<aBin.size()-1;i++)
+	{
+		aBin[i]=aBin[i+1];
+	}
+	aBin[aBin.size()-1]=temp;
+	registers['A']=bintodec(aBin);
+}
+void STC()
+{
+	flag['c']=1;
+}
+
