@@ -183,5 +183,37 @@ void decrease_reg_pair(char operand){
 }
 
 //23 DAD { }
+void DAD(char operand)	//Not compeleted yet  flag remains
+{
+	int carry,sum;
+	switch(operand)
+	{
+		case B:
+			sum=registers['C']+registers['L'];
+			registers['L']=sum%256;
+			carry=sum/256;
+			sum=registers['B']+registers['H']+carry;
+			registers['H']=sum%256;
+			flag['c']=sum/256;
+			
+		break;
+		case D:
+			sum=registers['E']+registers['L'];
+			registers['L']=sum%256;
+			carry=sum/256;
+			sum=registers['D']+registers['H']+carry;
+			registers['H']=sum%256;
+			flag['c']=sum/256;
+		break:
+		case H:
+			sum=registers['L']+registers['L'];
+			registers['L']=sum%256;
+			carry=sum/256;
+			sum=registers['H']+registers['H']+carry;
+			registers['H']=sum%256;
+			flag['c']=sum/256;
+		break;	
+	}
+}
 
 //24 DAA { }
