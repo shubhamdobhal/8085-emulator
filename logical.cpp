@@ -1,38 +1,38 @@
-void CMA()
+void CMA() //complimenting accumulator
 {
 	registers['A']=255-registers['A'];
 }
-void CMP(char operand)
+void CMP(char operand) //comparing register with accumulator
 {
-			if(registers['A']>registers[operand])
+			if(registers['A']>registers[operand]) 
 			{
-				flag['c']=0;
-				flag['z']=0;
+				flag['c']=0; //carry and zero flag get affected 
+				flag['z']=0; 
 			}
 			else if(registers['A']==registers[operand])
 			{
-				flag['z']=1;	
+				flag['z']=1;	//only zero flag get affected
 			}	
 			else
 			{
-				flag['c']=1;
+				flag['c']=1;	//if register content is greater then accumulator carry set 
 			}								
 		
 }
-void SET(string mem,string val)
+void SET(string mem,string val)  		//setting a memory location with a value
 {
 	memory[hextodec(mem)]=hextodec(val);
 }
-void CMC()
+void CMC()		//complimenting carry flag
 {
 	if(flag['c']==1)
 	flag['c']=0;
 	else
 	flag['c']=1;
 }
-void ANA(char operand)
+void ANA(char operand)		//logical and with accumulator
 {
-	if(operand!='M')
+	if(operand!='M')				
 	registers['A']=registers['A']&registers[operand];
 	else
 	{
@@ -40,13 +40,14 @@ void ANA(char operand)
 		registers['A']=registers['A']&memory[address];
 	}
 }
-void ANI(int a)
+void ANI(string val)		//and immediate
 {
+	int a=hextodec(val);
 	registers['A']=registers['A']&a;
 }
-void XRA(char operand)
+void XRA(char operand)	//xor with accumulator
 {
-	if(operand!='M')
+	if(operand!='M') 
 	registers['A']=registers['A']^registers[operand];
 	else
 	{
@@ -54,11 +55,12 @@ void XRA(char operand)
 		registers['A']=registers['A']^memory[address];
 	}
 }
-void XRI(int a)
+void XRI(string val) 	//xor immediate
 {
+	int a=hextodec(val);
 	registers'A'=registers['A']^a;
 }
-void ORA(char operand)
+void ORA(char operand)	//or with accumulator
 {
 	if(operand!='M')
 	registers['A']=registers['A']|registers[operand];
@@ -68,34 +70,35 @@ void ORA(char operand)
 		registers['A']=registers['A']|memory[address];
 	}
 }
-void ORI(int a)
+void ORI(string val)	//or immediate
 {
+	int a=hextodec(val);
 	registers['A']=registers['A']|a;
 }
-void RLC()
+void RLC()		//Rotate left without carry
 {
 	string aBin;
 	int i;
 	char temp;
-	aBin=dectobin(registers['A']);
+	aBin=dectobin(registers['A']);		//converting into binary(string) form ,stored number is reverse
 	flag['c']=aBin[aBin.size()-1]-'0';
 	temp=aBin[aBin.size()-1];
-	for(i=aBin.size()-2;i>=0;i--)
+	for(i=aBin.size()-2;i>=0;i--)  	//rotating string left
 	{
 		aBin[i+1]=aBin[i];
 	}
 	aBin[0]=temp;
 	registers['A']=bintodec(aBin);
 }
-void RRC()
+void RRC()		//Rotate right without carry
 {
 	string aBin;
 	int i;
 	char temp;
-	aBin=dectobin(registers['A']);
+	aBin=dectobin(registers['A']);		//converting into binary,reverse
 	flag['c']=aBin[0]-'0';
 	temp=aBin[0];
-	for(i=0;i<aBin.size()-1;i++)
+	for(i=0;i<aBin.size()-1;i++)	//rotating right 
 	{
 		aBin[i]=aBin[i+1];
 	}
@@ -103,12 +106,12 @@ void RRC()
 	registers['A']=bintodec(aBin);
 	
 }
-void RAL()
+void RAL()	//Rotate left with carry
 {
 	string aBin;
 	int i;
 	char temp;
-	aBin=dectobin(registers['A']);
+	aBin=dectobin(registers['A']);		//converting into binary
 	temp=flag['c'];
 	flag['c']=aBin[aBin.size()-1];
 	for(i=aBin.size()-2;i>=0;i--)
@@ -116,8 +119,9 @@ void RAL()
 		aBin[i+1]=aBin[i];
 	}
 	aBin[0]=temp;
+	registers['A']=bintodec(aBin);
 }
-void RAR()
+void RAR()	//Rotate right with carry
 {
 	string aBin;
 	int i;
@@ -132,7 +136,7 @@ void RAR()
 	aBin[aBin.size()-1]=temp;
 	registers['A']=bintodec(aBin);
 }
-void STC()
+void STC()		//set carry flag
 {
 	flag['c']=1;
 }
