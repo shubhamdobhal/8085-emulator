@@ -61,7 +61,7 @@ int add_carry(char operand){
 }
 
 //13 ACI
-int add_carry_immidiate(char val){
+int add_carry_immidiate(string val){
 	registers['A']+=hextodec(val)+flag['c'];
 	check();
 }
@@ -78,13 +78,13 @@ void sub(char operand){
 }
 
 //15 SUI
-int sub_immidiate(char val){
+void sub_immidiate(string val){
 	registers['A']-=hextodec(val);
 	check();
 }
 
 //16 SBB
-int sub_borrow(char operand){
+void sub_borrow(char operand){
 	if(operand=='M'){
 		int address=registers['H']*256+registers['L'];
 		registers['A']-=memory[address]-flag['c'];
@@ -95,13 +95,13 @@ int sub_borrow(char operand){
 }
 
 //17 SBI
-int sub_borrow_immidiate(char val){
+void sub_borrow_immidiate(string val){
 	registers['A']-=hextodec(val)-flag['c'];
 	check();
 }
 
 //18 LXI
-void inst_LXI(int registers[],int val){
+void inst_LXI(char operand){
 	int val_L=val%100;
 	int val_H=val/100;
 	registers[5]=hex_to_dec(val_H);
@@ -146,13 +146,13 @@ void increase_reg_pair(char operand){
 }
 
 //21 DCR
-void sub(int registers[],char operand){
+void sub(char operand){
 	registers[operand]--;
 	check_flag(operand);
 }
 
-//22 DCX { }
-void decrease_reg_pair(char operand){
+//22 DCX { }				//function under construction........
+void decrease_reg_pair(char operand){	
 	if(operand=='B'){
 		if(registers['C']==127){
 			registers['C']=0;
