@@ -1,35 +1,4 @@
-//airthmatic
 
-void check_flags(char operand){				//to check flags for dcr, inr .....,carry flag never changes
-	if(registers[operand]==0 || registers[operand]==128 || registers[operand]==-129){
-		flag['z']=1;
-		registers[operand]=0;
-	}
-	else{
-		flag['z']=0;
-	}
-	//code for checking parity and auxilarry carry.............
-}
-
-void check(){							//to check flags for add,sub........
-	if(registers['A']<0){
-		flag['s']=1;
-		if(registers['A']<(-128)){
-			flag['c']=1;		//if carry
-			registers['A']=129-registers['A'];		
-		}
-	}
-	else{	
-		flag['s']=0;
-		flag['c']=registers['A']/128;		//if carry
-		registers['A']%=128;
-	}
-	if(registers['A']==0)
-		flag['z']=1;
-	else
-		flag['z']=0;
-	//code for checking auxilarry and parity flag..............
-}
 
 //10 ADD
 
@@ -44,13 +13,13 @@ void add(char operand){
 	}
 	else
 		registers['A']+=registers[operand];
-	check();
+	check_flags_2();
 }
 
 //11 ADI
 void add_immidiate(string val){
 	registers['A']+=hextodec(val);
-	check();
+	check_flags_2();
 }
  
 //12 ADC
@@ -65,13 +34,13 @@ int add_carry(char operand){
 	}
 	else
 		registers['A']+=registers[operand]+flag['c'];
-	check();
+	check_flags_2();
 }
 
 //13 ACI
 int add_carry_immidiate(string val){
 	registers['A']+=hextodec(val)+flag['c'];
-	check();
+	check_flags_2();
 }
 
 //14 SUB
@@ -86,13 +55,13 @@ void sub(char operand){
 	}
 	else
 		registers['A']-=registers[operand];
-	check();
+	check_flags_2();
 }
 
 //15 SUI
 void sub_immidiate(string val){
 	registers['A']-=hextodec(val);
-	check();
+	check_flags_2();
 }
 
 //16 SBB
@@ -107,13 +76,13 @@ void sub_borrow(char operand){
 	}
 	else
 		registers['A']-=registers[operand]-flag['c'];
-	check();
+	check_flags_2();
 }
 
 //17 SBI
 void sub_borrow_immidiate(string val){
 	registers['A']-=hextodec(val)-flag['c'];
-	check();
+	check_flags_2();
 }
 
 //18 LXI
@@ -127,7 +96,7 @@ void inst_LXI(char operand){
 //19 INR
 void increment(char operand){
 	registers[operand]++;
-	check_flag(operand);
+	check_flags_1(operand);
 }
 
 //20 INX { }
@@ -164,7 +133,7 @@ void increase_reg_pair(char operand){
 //21 DCR
 void sub(char operand){
 	registers[operand]--;
-	check_flag(operand);
+	check_flag_1(operand);
 }
 
 //22 DCX { }				//function under construction........
