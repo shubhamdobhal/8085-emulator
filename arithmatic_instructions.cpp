@@ -35,7 +35,11 @@ void check(){							//to check flags for add,sub........
 
 void add(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']+=memory[address];
 	}
 	else
@@ -53,6 +57,10 @@ void add_immidiate(string val){
 int add_carry(char operand){
 	if(operand=='M'){
 		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']+=memory[address]+flag['c'];
 	}
 	else
@@ -69,7 +77,11 @@ int add_carry_immidiate(string val){
 //14 SUB
 void sub(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']-=memory[address];
 	}
 	else
@@ -86,7 +98,11 @@ void sub_immidiate(string val){
 //16 SBB
 void sub_borrow(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		if(memory.find(address)==memory.end())
+		{
+			memory[address]=0;
+		}
 		registers['A']-=memory[address]-flag['c'];
 	}
 	else
