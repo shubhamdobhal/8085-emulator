@@ -21,7 +21,7 @@ void CMP(char operand) //comparing register with accumulator
 }
 void SET(string mem,string val)  		//setting a memory location with a value
 {
-	memory[hextodec(mem)]=hextodec(val);
+	memory[mem]=hextodec(val);
 }
 void CMC()		//complimenting carry flag
 {
@@ -36,7 +36,7 @@ void ANA(char operand)		//logical and with accumulator
 	registers['A']=registers['A']&registers[operand];
 	else
 	{
-		int address=registers['H']*256+registers['L'];
+		string address=dectohex(registers['H')+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -55,7 +55,7 @@ void XRA(char operand)	//xor with accumulator
 	registers['A']=registers['A']^registers[operand];
 	else
 	{
-		int address=registers['H']*256+registers['L'];
+		string address=dectohex(registers['H')+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -74,7 +74,7 @@ void ORA(char operand)	//or with accumulator
 	registers['A']=registers['A']|registers[operand];
 	else
 	{
-		int address=registers['H']*256+registers['L'];
+		string address=dectohex(registers['H')+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
