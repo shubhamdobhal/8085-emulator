@@ -1,4 +1,0 @@
-2000
-MVI A,10
-STA B
-HALT
