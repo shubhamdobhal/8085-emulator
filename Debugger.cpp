@@ -1,6 +1,10 @@
 #include "instru_load_store.cpp"
 #include "DummyInstructions.cpp"
 
+void INR(char c)
+{
+    registers[c]++;
+}
 void ADD(string s)
 {
     registers['A'] += registers[s[0]];
@@ -16,21 +20,26 @@ void display()
     if(dp==0)
     {
         int i;
-        cout<<"Values in Registers:\n";
+        cout<<"\nValues in Registers:\n";
         char ch;
+        string s;
         for(ch='A';ch<='E';ch++)
         {
-            cout<<ch<<" : "<<dectohex(registers[ch])<<endl;
+            s = dectohex(registers[ch]);
+            cout<<ch<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
         }
-        cout<<"H : "<<dectohex(registers['H'])<<endl<<"L : "<<dectohex(registers['L'])<<endl;
-        cout<<"Values of Flags:\n";
-        cout<<"Z :"<<flag['z']<<endl<<"S :"<<flag['s']<<endl<<"C :"<<flag['c']<<endl<<"P :"<<flag['p']<<endl<<"AC :"<<flag['a']<<endl;
-        cout<<"Memory Locations Used:"<<endl;
+        s = dectohex(registers['H']);
+        cout<<"H : "<<((s.size()==1)?("0"+s):s)<<endl;
+        s = dectohex(registers['L']);
+        cout<<"L : "<<((s.size()==1)?("0"+s):s)<<endl;
+        cout<<"\nValues of Flags:\n";
+        cout<<"Z  : "<<flag['z']<<endl<<"S  : "<<flag['s']<<endl<<"C  : "<<flag['c']<<endl<<"P  : "<<flag['p']<<endl<<"AC : "<<flag['a']<<endl;
+        cout<<"\nMemory Locations Used:"<<endl;
         if(memoryLocationsUsed.size())
         {
             for(i=0;i<memoryLocationsUsed.size();i++)
             {
-                string s = dectohex(memory[memoryLocationsUsed[i]]);
+                s = dectohex(memory[memoryLocationsUsed[i]]);
                 cout<<memoryLocationsUsed[i]<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
             }
         }
@@ -38,6 +47,7 @@ void display()
         {
             cout<<"None!"<<endl;
         }
+        cout<<endl;
     }
 }
 
@@ -228,7 +238,7 @@ void stepORrun(int op)
                                 if(s2=="SUB")
                                     SUB(o);
                                 if(s2=="INR")
-                                    INR(o);
+                                    INR(o[0]);
                                 if(s2=="DCR")
                                     DCR(o);
                                 if(s2=="CMP")
@@ -258,26 +268,44 @@ void stepORrun(int op)
                     case 2: if(check2(o))
                             {
                                 if(s2=="LDA")
+                                {
                                     LDA(o);
+                                    pc = hextodec(program_counter);
+                                    pc = pc + inst_size[s2];
+                                    program_counter = dectohex(pc);
+                                }
                                 if(s2=="STA")
                                 {
                                     STA(o);
                                     memoryLocationsUsed.push_back(o);
+                                    pc = hextodec(program_counter);
+                                    pc = pc + inst_size[s2];
+                                    program_counter = dectohex(pc);
                                 }
                                 if(s2=="LHLD")
+                                {
                                     LHLD(o);
+                                    pc = hextodec(program_counter);
+                                    pc = pc + inst_size[s2];
+                                    program_counter = dectohex(pc);
+                                }
                                 if(s2=="SHLD")
+                                {
                                     SHLD(o);
+                                    pc = hextodec(program_counter);
+                                    pc = pc + inst_size[s2];
+                                    program_counter = dectohex(pc);
+                                }
                                 if(s2=="JMP")
-                                    JMP(o);
+                                    JMP(hextodec(o));
                                 if(s2=="JC")
-                                    JC(o);
+                                    JC(hextodec(o));
                                 if(s2=="JNC")
-                                    JNC(o);
+                                    JNC(hextodec(o));
                                 if(s2=="JZ")
-                                    JZ(o);
+                                    JZ(hextodec(o));
                                 if(s2=="JNZ")
-                                    JNZ(o);
+                                    JNZ(hextodec(o));
                                 if(s2=="CC")
                                     CC(o);
                                 if(s2=="CNC")
@@ -294,10 +322,6 @@ void stepORrun(int op)
                                     CPE(o);
                                 if(s2=="CPO")
                                     CPO(o);
-
-                                pc = hextodec(program_counter);
-                                pc = pc + inst_size[s2];
-                                program_counter = dectohex(pc);
                             }
                             else
                             {

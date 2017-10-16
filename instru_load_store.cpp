@@ -18,7 +18,7 @@ void MOV(char operand1,char operand2)
 		}
 		else
 		{
-			memory[dectohex(address)]=registers[operand1];
+			registers[operand1]=memory[dectohex(address)];
 		}
 	}
 }

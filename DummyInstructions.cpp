@@ -42,11 +42,11 @@ void SBB(string s){}
 //void STA(string s){}
 //void LHLD(string s){}
 //void SHLD(string s){}
-void JMP(string s){}
-void JC(string s){}
-void JNC(string s){}
-void JZ(string s){}
-void JNZ(string s){}
+//void JMP(string s){}
+//void JC(string s){}
+//void JNC(string s){}
+//void JZ(string s){}
+//void JNZ(string s){}
 void CC(string s){}
 void CNC(string s){}
 void CZ(string s){}

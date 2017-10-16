@@ -1,72 +1,89 @@
+#include "CustomFunctions.cpp"
 // branching instructions
 
 //1 JMP
-void jump(int address){
-	pc=address;
+void JMP(int address)
+{
+	pc = address;
+	program_counter = dectohex(pc);
 }
 
 //2 JC
-void jump_cary(int address){
-	if(flag[0]==1)
-		pc=address;
-	else 
-		pc++;
+void JC(int address)
+{
+	if(flag['c']==1)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //3 JNC
-void jump_not_cary(int address){
-	if(flag[0]==0)
-		pc=address;
-	else 
-		pc++;
+void JNC(int address)
+{
+	if(flag['c']==0)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //4 JZ
-void jump_zero(int address){
-	if(flag[3]==1)
-		pc=address;
-	else 
-		pc++;
+void JZ(int address)
+{
+	if(flag['z']==1)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //5 JNZ
-void jump_not_zero(int address){
-	if(flag[3]==0)
-		pc=address;
-	else 
-		pc++;
+void JNZ(int address)
+{
+	if(flag['z']==0)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //6 JP
-void jump_positive(int address){
-	if(flag[4]==0)
-		pc=address;
-	else 
-		pc++;
+void JP(int address)
+{
+	if(flag['s']==0)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //7 JM
-void jump_minus(int address){
-	if(flag[4]==1)
-		pc=address;
-	else 
-		pc++;
+void jump_minus(int address)
+{
+	if(flag['s']==1)
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //8 JPE
-void jump_parity_even(int address){
+void JPE(int address)
+{
 	if(flag[1]==1)
-		pc=address;
-	else 
-		pc++;
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
 
 //9 JPO
-void jump_parity_odd(int address){
+void JPO(int address)
+{
 	if(flag[1]==0)
-		pc=address;
-	else 
-		pc++;
+		pc = address;
+	else
+		pc += 3;
+    program_counter = dectohex(pc);
 }
-
-
