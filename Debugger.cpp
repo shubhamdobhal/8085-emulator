@@ -1,213 +1,16 @@
-#include "OperandCheck.cpp"
+#include "instru_load_store.cpp"
 #include "DummyInstructions.cpp"
 
-int number_of_lines = 0, break_point = INT_MAX,memregflag=0,pc,line_number = 1,dp=0;
-string program_counter,start_address;
-map<string,int> commands;
-map<string,int> inst_size;
-map<string,string> RAM;
-map<string,int> memory;
-map<char,int> registers;
-map<char,int> flags;
-vector<string> memoryLocationsUsed;
-
-void SET(string l, string v)
-{
-    memory[l] = hextodec(v);
-}
-void STA(string l)
-{
-    memory[l] = registers['A'];
-}
-void LDA(string l)
-{
-    registers['A'] = memory[l];
-}
 void ADD(string s)
 {
     registers['A'] += registers[s[0]];
     if(registers['A']>255)
     {
         registers['A'] = registers['A']%256;
-        flags['c'] = 1;
+        flag['c'] = 1;
     }
 }
-void MOV(string d, string s)
-{
-    registers[d[0]] = registers[s[0]];
-}
 
-void reset_flags()
-{
-    flags['z'] = 0;
-    flags['s'] = 0;
-    flags['c'] = 0;
-    flags['p'] = 0;
-    flags['a'] = 0;
-}
-void reset_registers()
-{
-    registers['A'] = 0;
-    registers['B'] = 0;
-    registers['C'] = 0;
-    registers['D'] = 0;
-    registers['E'] = 0;
-    registers['H'] = 0;
-    registers['L'] = 0;
-}
-void set_instructions_size()
-{
-    inst_size["MOV"] = 1;
-    inst_size["XCHG"] = 1;
-    inst_size["ADD"] = 1;
-    inst_size["SUB"] = 1;
-    inst_size["INR"] = 1;
-    inst_size["DCR"] = 1;
-    inst_size["INX"] = 1;
-    inst_size["DCX"] = 1;
-    inst_size["DAD"] = 1;
-    inst_size["CMA"] = 1;
-    inst_size["CMP"] = 1;
-    inst_size["NOP"] = 1;
-    inst_size["DI"] = 1;
-    inst_size["EI"] = 1;
-    inst_size["RIM"] = 1;
-    inst_size["SIM"] = 1;
-    inst_size["ANA"] = 1;
-    inst_size["XRA"] = 1;
-    inst_size["ORA"] = 1;
-    inst_size["RLC"] = 1;
-    inst_size["RRC"] = 1;
-    inst_size["RAL"] = 1;
-    inst_size["RAR"] = 1;
-    inst_size["CMC"] = 1;
-    inst_size["STC"] = 1;
-    inst_size["RET"] = 1;
-    inst_size["RC"] = 1;
-    inst_size["RNC"] = 1;
-    inst_size["RP"] = 1;
-    inst_size["RM"] = 1;
-    inst_size["RZ"] = 1;
-    inst_size["RNZ"] = 1;
-    inst_size["RPE"] = 1;
-    inst_size["RPO"] = 1;
-    inst_size["PCHL"] = 1;
-    inst_size["ADC"] = 1;
-    inst_size["SBB"] = 1;
-    inst_size["DAA"] = 1;
-    inst_size["SPHL"] = 1;
-    inst_size["XTHL"] = 1;
-    inst_size["PUSH"] = 1;
-    inst_size["POP"] = 1;
-    inst_size["MVI"] = 2;
-    inst_size["ADI"] = 2;
-    inst_size["SUI"] = 2;
-    inst_size["MVI"] = 2;
-    inst_size["CPI"] = 2;
-    inst_size["ANI"] = 2;
-    inst_size["XRI"] = 2;
-    inst_size["ORI"] = 2;
-    inst_size["SBI"] = 2;
-    inst_size["ACI"] = 2;
-    inst_size["OUT"] = 2;
-    inst_size["IN"] = 2;
-    inst_size["LXI"] = 3;
-    inst_size["LDA"] = 3;
-    inst_size["STA"] = 3;
-    inst_size["LHLD"] = 3;
-    inst_size["SHLD"] = 3;
-    inst_size["STAX"] = 3;
-    inst_size["JMP"] = 3;
-    inst_size["JC"] = 3;
-    inst_size["JNC"] = 3;
-    inst_size["JZ"] = 3;
-    inst_size["JNZ"] = 3;
-    inst_size["CC"] = 3;
-    inst_size["CNC"] = 3;
-    inst_size["CP"] = 3;
-    inst_size["CM"] = 3;
-    inst_size["CZ"] = 3;
-    inst_size["CNZ"] = 3;
-    inst_size["CPE"] = 3;
-    inst_size["CPO"] = 3;
-    inst_size["SET"] = 4;
-}
-void set_instructions()
-{
-    commands["XCHG"] = 0;
-    commands["CMA"] = 0;
-    commands["NOP"] = 0;
-    commands["DI"] = 0;
-    commands["EI"] = 0;
-    commands["RIM"] = 0;
-    commands["SIM"] = 0;
-    commands["RLC"] = 0;
-    commands["RRC"] = 0;
-    commands["RAL"] = 0;
-    commands["RAR"] = 0;
-    commands["CMC"] = 0;
-    commands["STC"] = 0;
-    commands["RET"] = 0;
-    commands["RC"] = 0;
-    commands["RNC"] = 0;
-    commands["RP"] = 0;
-    commands["RM"] = 0;
-    commands["RZ"] = 0;
-    commands["RNZ"] = 0;
-    commands["RPE"] = 0;
-    commands["RPO"] = 0;
-    commands["PCHL"] = 0;
-    commands["DAA"] = 0;
-    commands["SPHL"] = 0;
-    commands["XTHL"] = 0;
-    commands["ANA"] = 1;
-    commands["XRA"] = 1;
-    commands["ORA"] = 1;
-    commands["ADC"] = 1;
-    commands["SBB"] = 1;
-    commands["SUB"] = 1;
-    commands["ADD"] = 1;
-    commands["INR"] = 1;
-    commands["DCR"] = 1;
-    commands["CMP"] = 1;
-    commands["CC"] = 2;
-    commands["CNC"] = 2;
-    commands["CP"] = 2;
-    commands["CM"] = 2;
-    commands["CZ"] = 2;
-    commands["CNZ"] = 2;
-    commands["CPE"] = 2;
-    commands["CPO"] = 2;
-    commands["LDA"] = 2;
-    commands["STA"] = 2;
-    commands["LHLD"] = 2;
-    commands["SHLD"] = 2;
-    commands["JMP"] = 2;
-    commands["JC"] = 2;
-    commands["JNC"] = 2;
-    commands["JZ"] = 2;
-    commands["JNZ"] = 2;
-    commands["ADI"] = 3;
-    commands["SUI"] = 3;
-    commands["CPI"] = 3;
-    commands["ANI"] = 3;
-    commands["XRI"] = 3;
-    commands["ORI"] = 3;
-    commands["ADI"] = 3;
-    commands["SBI"] = 3;
-    commands["IN"] = 3;
-    commands["OUT"] = 3;
-    commands["PUSH"] = 4;
-    commands["POP"] = 4;
-    commands["STAX"] = 4;
-    commands["INX"] = 4;
-    commands["DCX"] = 4;
-    commands["DAD"] = 4;
-    commands["MOV"] = 5;
-    commands["MVI"] = 6;
-    commands["LXI"] = 7;
-    commands["SET"] = 8;
-}
 void display()
 {
     if(dp==0)
@@ -221,13 +24,14 @@ void display()
         }
         cout<<"H : "<<dectohex(registers['H'])<<endl<<"L : "<<dectohex(registers['L'])<<endl;
         cout<<"Values of Flags:\n";
-        cout<<"Z :"<<flags['z']<<endl<<"S :"<<flags['s']<<endl<<"C :"<<flags['c']<<endl<<"P :"<<flags['p']<<endl<<"A :"<<flags['a']<<endl;
+        cout<<"Z :"<<flag['z']<<endl<<"S :"<<flag['s']<<endl<<"C :"<<flag['c']<<endl<<"P :"<<flag['p']<<endl<<"AC :"<<flag['a']<<endl;
         cout<<"Memory Locations Used:"<<endl;
         if(memoryLocationsUsed.size())
         {
             for(i=0;i<memoryLocationsUsed.size();i++)
             {
-                cout<<memoryLocationsUsed[i]<<" : "<<dectohex(memory[memoryLocationsUsed[i]])<<endl;
+                string s = dectohex(memory[memoryLocationsUsed[i]]);
+                cout<<memoryLocationsUsed[i]<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
             }
         }
         else
@@ -383,6 +187,10 @@ void stepORrun(int op)
                     SPHL();
                 if(s1=="XTHL")
                     XTHL();
+                if(s1=="CMA")
+                    CMA();
+                if(s1=="XCHG")
+                    XCHG();
 
                 pc = hextodec(program_counter);
                 pc = pc + inst_size[s1];
@@ -424,13 +232,13 @@ void stepORrun(int op)
                                 if(s2=="DCR")
                                     DCR(o);
                                 if(s2=="CMP")
-                                    CMP(o);
+                                    CMP(o[0]);
                                 if(s2=="ANA")
-                                    ANA(o);
+                                    ANA(o[0]);
                                 if(s2=="XRA")
-                                    XRA(o);
+                                    XRA(o[0]);
                                 if(s2=="ORA")
-                                    ORA(o);
+                                    ORA(o[0]);
                                 if(s2=="ADC")
                                     ADC(o);
                                 if(s2=="SBB")
@@ -502,8 +310,14 @@ void stepORrun(int op)
                             {
                                 if(s2=="ADI")
                                     ADI(o);
+                                if(s2=="ANI")
+                                    ANI(o);
+                                if(s2=="ORI")
+                                    ORI(o);
                                 if(s2=="SUI")
                                     SUI(o);
+                                if(s2=="XRI")
+                                    XRI(o);
                                 if(s2=="ACI")
                                     ACI(o);
                                 if(s2=="SBI")
@@ -529,7 +343,7 @@ void stepORrun(int op)
                     case 4: if(check4(o))
                             {
                                 if(s2=="STAX")
-                                    STAX(o);
+                                    STAX(o[0]);
                                 if(s2=="DAD")
                                     DAD(o);
                                 if(s2=="INX")
@@ -537,9 +351,9 @@ void stepORrun(int op)
                                 if(s2=="DCX")
                                     DCX(o);
                                 if(s2=="PUSH")
-                                    PUSH(o);
+                                    PUSH(o[0]);
                                 if(s2=="POP")
-                                    POP(o);
+                                    POP(o[0]);
                                 pc = hextodec(program_counter);
                                 pc = pc + inst_size[s2];
                                 program_counter = dectohex(pc);
@@ -556,7 +370,7 @@ void stepORrun(int op)
                                 s3 = s1.substr(indexOf(s1,' ')+1,1);
                                 s4 = s1.substr(indexOf(s1,',')+1,1);
                                 if(s2=="MOV")
-                                    MOV(s3,s4);
+                                    MOV(s3[0],s4[0]);
 
                                 pc = hextodec(program_counter);
                                 pc = pc + inst_size[s2];
@@ -574,7 +388,7 @@ void stepORrun(int op)
                                 s3 = s1.substr(indexOf(s1,' ')+1,1);
                                 s4 = s1.substr(indexOf(s1,',')+1,2);
                                 if(s2=="MVI")
-                                    MVI(s3,s4);
+                                    MVI(s3[0],s4);
 
                                 pc = hextodec(program_counter);
                                 pc = pc + inst_size[s2];

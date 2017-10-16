@@ -1,23 +1,24 @@
+#include "CustomFunctions.cpp"
 void CMA() //complimenting accumulator
 {
 	registers['A']=255-registers['A'];
 }
 void CMP(char operand) //comparing register with accumulator
 {
-			if(registers['A']>registers[operand]) 
+			if(registers['A']>registers[operand])
 			{
-				flag['c']=0; //carry and zero flag get affected 
-				flag['z']=0; 
+				flag['c']=0; //carry and zero flag get affected
+				flag['z']=0;
 			}
 			else if(registers['A']==registers[operand])
 			{
 				flag['z']=1;	//only zero flag get affected
-			}	
+			}
 			else
 			{
-				flag['c']=1;	//if register content is greater then accumulator carry set 
-			}								
-		
+				flag['c']=1;	//if register content is greater then accumulator carry set
+			}
+
 }
 void SET(string mem,string val)  		//setting a memory location with a value
 {
@@ -32,11 +33,11 @@ void CMC()		//complimenting carry flag
 }
 void ANA(char operand)		//logical and with accumulator
 {
-	if(operand!='M')				
+	if(operand!='M')
 	registers['A']=registers['A']&registers[operand];
 	else
 	{
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -51,11 +52,11 @@ void ANI(string val)		//and immediate
 }
 void XRA(char operand)	//xor with accumulator
 {
-	if(operand!='M') 
+	if(operand!='M')
 	registers['A']=registers['A']^registers[operand];
 	else
 	{
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -66,7 +67,7 @@ void XRA(char operand)	//xor with accumulator
 void XRI(string val) 	//xor immediate
 {
 	int a=hextodec(val);
-	registers'A'=registers['A']^a;
+	registers['A']=registers['A']^a;
 }
 void ORA(char operand)	//or with accumulator
 {
@@ -74,7 +75,7 @@ void ORA(char operand)	//or with accumulator
 	registers['A']=registers['A']|registers[operand];
 	else
 	{
-		string address=dectohex(registers['H')+dectohex(registers['L']);
+		string address=dectohex(registers['H'])+dectohex(registers['L']);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -110,13 +111,13 @@ void RRC()		//Rotate right without carry
 	aBin=dectobin(registers['A']);		//converting into binary,reverse
 	flag['c']=aBin[0]-'0';
 	temp=aBin[0];
-	for(i=0;i<aBin.size()-1;i++)	//rotating right 
+	for(i=0;i<aBin.size()-1;i++)	//rotating right
 	{
 		aBin[i]=aBin[i+1];
 	}
 	aBin[aBin.size()-1]=temp;
 	registers['A']=bintodec(aBin);
-	
+
 }
 void RAL()	//Rotate left with carry
 {
