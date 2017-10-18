@@ -202,3 +202,24 @@ void DAD(char operand)	//Not compeleted yet  flag remains
 }
 
 //24 DAA { }
+void DAA()	//not fully tested
+{
+	string temp;
+	temp=dectohex(registers['A']);
+	if(temp[1]>='A'&&temp[1]<='F'||flag['a']==1) //checking first four bit and auxillary carry
+	{
+		registers['A']+=6;		//converting into bcd
+		flag['a']=1;
+	}
+	else
+	flag['a']=0;
+	if(temp[0]>='A'&&temp[0]<='F'||flag['c']==1)	//checking last four bit and carry flag
+	{
+		registers['A']+=60;		//converting into bcd
+		flag['c']=1;
+	}
+	else
+		flag['c']=0;
+		
+	registers['A']%=256;
+}
