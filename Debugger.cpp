@@ -71,7 +71,7 @@ void help()
 void print()
 {
     string memreg;
-    cout<<"Enter register or memory location:\n";
+    cout<<"\nEnter register or memory location:\n";
     getline(cin,memreg);
     if(memreg.size()==1)
     {
@@ -86,13 +86,14 @@ void print()
                 if(!((memreg[i]>='0' && memreg[i]<='9') || (memreg[i]>='A' && memreg[i]<='F')))
                 {
                     memregflag=1;
-                    cout<<"Invalid Address !\n\n";
+                    cout<<"\nInvalid Address !\n\n";
                     break;
                 }
             }
             if(memregflag==0)
             {
-                cout<<dectohex(memory[memreg])<<"\n";
+                string s = dectohex(memory[memreg]);
+                cout<<"\nValue:\n"<<((s.size()==1)?("0"+s):(s))<<"\n\n";
             }
         }
         else
