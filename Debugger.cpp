@@ -5,38 +5,73 @@ void display()
     if(dp==0)
     {
         int i;
+        remove("outputFile.txt");
+        ofstream code;
+        code.open("outputFile.txt",ios::out);
         cout<<"Values in Registers:\n";
+        code<<"Values in Registers:"<<endl;
         char ch;
-        string s;
+        string s,f;
         for(ch='A';ch<='E';ch=ch+1)
         {
             s = dectohex(registers[ch]);
             transform(s.begin(), s.end(), s.begin(), ::toupper);
-            cout<<ch<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
+            f = ch;
+            f = f+" : "+((s.size()==1)?("0"+s):s);
+            cout<<f<<endl;
+            code<<f<<endl;
         }
+
         s = dectohex(registers['H']);
         transform(s.begin(), s.end(), s.begin(), ::toupper);
-        cout<<"H : "<<((s.size()==1)?("0"+s):s)<<endl;
+        f = "H : "+((s.size()==1)?("0"+s):s);
+        cout<<f<<endl;
+        code<<f<<endl;
+
         s = dectohex(registers['L']);
         transform(s.begin(), s.end(), s.begin(), ::toupper);
-        cout<<"L : "<<((s.size()==1)?("0"+s):s)<<endl;
+        f = "L : "+((s.size()==1)?("0"+s):s);
+        cout<<f<<endl;
+        code<<f<<endl;
+
         cout<<"\nValues of Flags:\n";
-        cout<<"Z  : "<<flag['z']<<endl<<"S  : "<<flag['s']<<endl<<"C  : "<<flag['c']<<endl<<"P  : "<<flag['p']<<endl<<"AC : "<<flag['a']<<endl;
+        code<<"\nValues of Flags:"<<endl;
+        f = "Z  : "+int_to_str(flag['z']);
+        cout<<f<<endl;
+        code<<f<<endl;
+        f = "S  : "+int_to_str(flag['s']);
+        cout<<f<<endl;
+        code<<f<<endl;
+        f = "C  : "+int_to_str(flag['c']);
+        cout<<f<<endl;
+        code<<f<<endl;
+        f = "P  : "+int_to_str(flag['p']);
+        cout<<f<<endl;
+        code<<f<<endl;
+        f = "AC : "+int_to_str(flag['a']);
+        cout<<f<<endl;
+        code<<f<<endl;
+
         cout<<"\nMemory Locations Used:"<<endl;
+        code<<"\nMemory Locations Used:"<<endl;
         if(memoryLocationsUsed.size())
         {
             for(i=0;i<memoryLocationsUsed.size();i++)
             {
                 s = dectohex(memory[memoryLocationsUsed[i]]);
                 transform(s.begin(), s.end(), s.begin(), ::toupper);
-                cout<<memoryLocationsUsed[i]<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
+                f=memoryLocationsUsed[i]+" : "+((s.size()==1)?("0"+s):s);
+                cout<<f<<endl;
+                code<<f<<endl;
             }
         }
         else
         {
             cout<<"None!"<<endl;
+            code<<"None!"<<endl;
         }
         cout<<endl;
+        code.close();
     }
 }
 
@@ -458,10 +493,10 @@ void debugger(int file)
                      break;
             case 's':stepORrun(1);
                      break;
-            default:if(ch[0]!='q')
+            default:if(!(ch[0]=='q' || ch[0]=='Q'))
                     {
                         cout<<"Invalid Input ! Try Again !\n\n";
                     }
         }
-    }while(ch[0]!='q');
+    }while(!(ch[0]=='q' || ch[0]=='Q'));
 }

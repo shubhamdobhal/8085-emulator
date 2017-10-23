@@ -1,5 +1,5 @@
 #include<H:\VIKRANT\GEU PROJECTS\8085-EML\Debugger.h>
-int main()
+int main(int argc, char** argv)
 {
     int pc;
     char ch,f,c;
@@ -26,32 +26,39 @@ int main()
     {
         string line;
         ifstream code;
-        do
+        if(argc==2)
         {
-            cout<<"\nAvailable Codes:\n\n1) 8 Bit Addition\t\t\t2) 8 Bit Subtraction\t\t\t3) 8 Bit Multiplication\n4) 8 Bit Division \t\t\t5) Find Largest Element In Array\t6) Find Smallest Element In Array\n7) Sort Array In Ascending Order\t8) Sort Array In Descending Order\t9) Custom Code\n\nEnter:\n";
-            cin>>c;
-            switch(c)
+            code.open(argv[1],ios::in);
+        }
+        else
+        {
+            do
             {
-                case '1': code.open("8 Bit Addition.txt",ios::in);
-                        break;
-                case '2': code.open("8 Bit Subtraction.txt",ios::in);
-                        break;
-                case '3': code.open("8 Bit Multiplication.txt",ios::in);
-                        break;
-                case '4': code.open("8 Bit Division.txt",ios::in);
-                        break;
-                case '5': code.open("8 Bit Array Find Largest.txt",ios::in);
-                        break;
-                case '6': code.open("8 Bit Array Find Smallest .txt",ios::in);
-                        break;
-                case '7': code.open("8 Bit Array Sort Ascending.txt",ios::in);
-                        break;
-                case '8': code.open("8 Bit Array Sort Descending.txt",ios::in);
-                        break;
-                case '9': code.open("inputF.txt",ios::in);
-                        break;
-            }
-        }while(!(c>='1' && c<='9'));
+                cout<<"\nAvailable Codes:\n\n1) 8 Bit Addition\t\t\t2) 8 Bit Subtraction\t\t\t3) 8 Bit Multiplication\n4) 8 Bit Division \t\t\t5) Find Largest Element In Array\t6) Find Smallest Element In Array\n7) Sort Array In Ascending Order\t8) Sort Array In Descending Order\t9)Previous Console Written Code\n\nEnter:\n";
+                cin>>c;
+                switch(c)
+                {
+                    case '1':code.open("8 Bit Addition.txt",ios::in);
+                             break;
+                    case '2':code.open("8 Bit Subtraction.txt",ios::in);
+                             break;
+                    case '3':code.open("8 Bit Multiplication.txt",ios::in);
+                             break;
+                    case '4':code.open("8 Bit Division.txt",ios::in);
+                             break;
+                    case '5':code.open("8 Bit Array Find Largest.txt",ios::in);
+                             break;
+                    case '6':code.open("8 Bit Array Find Smallest .txt",ios::in);
+                             break;
+                    case '7':code.open("8 Bit Array Sort Ascending.txt",ios::in);
+                             break;
+                    case '8':code.open("8 Bit Array Sort Descending.txt",ios::in);
+                             break;
+                    case '9':code.open("previousConsoleCode.txt",ios::in);
+                             break;
+                }
+            }while(!(c>='1' && c<='9'));
+        }
         //      code.open("inputF.txt",ios::in);
         while(!code.eof())
         {
@@ -95,8 +102,12 @@ int main()
     if(ch=='2')//INPUT FROM CONSOLE
     {
         cout<<"Enter starting address:\n";
+        remove("previousConsoleCode.txt");
+        ofstream code;
+        code.open("previousConsoleCode.txt",ios::out);
         fflush(stdin);
         getline(cin,start_address);
+        code<<start_address<<endl;
         program_counter = start_address;
         do
         {
@@ -111,6 +122,7 @@ int main()
                 }
             }
             RAM[program_counter] = line;
+            code<<line<<endl;
             pc = hextodec(program_counter);
             if(line.size()==3 || line.size()==4 || line.size()==2)
             {
@@ -123,6 +135,7 @@ int main()
             program_counter = dectohex(pc);
         }while(line!="HLT" && line!="EOF");
         ++number_of_lines;
+        code.close();
     }
     do
     {
