@@ -1,4 +1,4 @@
-#include "DataTransferInstructions.cpp"
+//#include "DummyInstructions.cpp"
 
 void display()
 {
@@ -11,11 +11,14 @@ void display()
         for(ch='A';ch<='E';ch=ch+1)
         {
             s = dectohex(registers[ch]);
+            transform(s.begin(), s.end(), s.begin(), ::toupper);
             cout<<ch<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
         }
         s = dectohex(registers['H']);
+        transform(s.begin(), s.end(), s.begin(), ::toupper);
         cout<<"H : "<<((s.size()==1)?("0"+s):s)<<endl;
         s = dectohex(registers['L']);
+        transform(s.begin(), s.end(), s.begin(), ::toupper);
         cout<<"L : "<<((s.size()==1)?("0"+s):s)<<endl;
         cout<<"\nValues of Flags:\n";
         cout<<"Z  : "<<flag['z']<<endl<<"S  : "<<flag['s']<<endl<<"C  : "<<flag['c']<<endl<<"P  : "<<flag['p']<<endl<<"AC : "<<flag['a']<<endl;
@@ -25,6 +28,7 @@ void display()
             for(i=0;i<memoryLocationsUsed.size();i++)
             {
                 s = dectohex(memory[memoryLocationsUsed[i]]);
+                transform(s.begin(), s.end(), s.begin(), ::toupper);
                 cout<<memoryLocationsUsed[i]<<" : "<<((s.size()==1)?("0"+s):s)<<endl;
             }
         }
@@ -68,11 +72,8 @@ void help()
     cout<<"5. quit or q :- Quits the debugger\n";
     cout<<"6. help or h :- Will show all commands of the debugger\n\n";
 }
-void print()
+void print(string memreg)
 {
-    string memreg;
-    cout<<"\nEnter register or memory location:\n";
-    getline(cin,memreg);
     if(memreg.size()==1)
     {
         cout<<registers[toupper(memreg[0])]<<endl;
@@ -414,7 +415,8 @@ void stepORrun(int op)
 }
 void debugger(int file)
 {
-    char ch;
+    int f;
+    string ch;
     set_instructions();
     reset_flags();
     reset_registers();
@@ -430,25 +432,36 @@ void debugger(int file)
     {
         memregflag = 0;
         cout<<"Enter Command:\n";
-        cin>>ch;
-        ch=tolower(ch);
         fflush(stdin);
-        switch(ch)
+        getline(cin,ch);
+        switch(ch[0])
         {
+            case 'B':
             case 'b':break_point_set(file);
                      break;
+            case 'H':
             case 'h':help();
                      break;
-            case 'p':print();
+            case 'P':
+            case 'p':f = indexOf(ch,' ');
+                     if(f==-1)
+                     {
+                         cout<<"\nInvalid Format! Give space in between!\n\n";
+                     }
+                     else
+                     {
+                         print(ch.substr(f+1,ch.size()));
+                     }
                      break;
+            case 'R':
             case 'r':stepORrun(2);
                      break;
             case 's':stepORrun(1);
                      break;
-            default:if(ch!='q')
+            default:if(ch[0]!='q')
                     {
                         cout<<"Invalid Input ! Try Again !\n\n";
                     }
         }
-    }while(ch!='q');
+    }while(ch[0]!='q');
 }

@@ -1,6 +1,3 @@
-#include "ArithmaticInstructions.cpp"
-
-
 //1 JMP
 void JMP(string address){
 	program_counter=address;

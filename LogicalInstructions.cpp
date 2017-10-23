@@ -1,11 +1,10 @@
-#include"BranchingInstructions.cpp"
 void CMA() //complimenting accumulator
 {
 	registers['A']=255-registers['A'];
 }
 void CMP(char operand) //comparing register with accumulator
 {
-        if(operand=='M')
+			if(operand=='M')
         {
             string address = dectohex(registers['H']*256+registers['L']);
             if(registers['A']>memory[address])//if memory is used
@@ -44,6 +43,7 @@ void CMP(char operand) //comparing register with accumulator
                 }
             }
         }
+
 
 }
 void SET(string mem,string val)  		//setting a memory location with a value

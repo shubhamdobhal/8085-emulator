@@ -1,4 +1,3 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085 Emulator\Global.h>
 //String <--> Integer Conversions
 int str_to_int(string str)
 {
@@ -188,7 +187,7 @@ bool check6(string s)
     {
         string s1,s2;
         s1 = s.substr(0,1);
-        s2 = s.substr(f+1,2);
+        s2 = s.substr(f+1,INT_MAX);
         if(check1(s1) && check3(s2))
         {
             return 1;
@@ -203,7 +202,7 @@ bool check7(string s)
     {
         string s1,s2;
         s1 = s.substr(0,1);
-        s2 = s.substr(f+1,4);
+        s2 = s.substr(f+1,INT_MAX);
         if(check4(s1) && check2(s2))
         {
             return 1;
@@ -217,8 +216,8 @@ bool check8(string s)
     if(f!=-1)
     {
         string s1,s2;
-        s1 = s.substr(0,4);
-        s2 = s.substr(f+1,2);
+        s1 = s.substr(0,f);
+        s2 = s.substr(f+1,INT_MAX);
         if(check2(s1) && check3(s2))
         {
             return 1;

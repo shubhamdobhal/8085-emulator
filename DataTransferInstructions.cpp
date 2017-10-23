@@ -1,4 +1,3 @@
-#include"LogicalInstructions.cpp"
 void MOV(char operand1,char operand2)
 {
 	if(operand1!='M'&&operand2!='M')

@@ -1,4 +1,4 @@
-#include"Debugger.cpp"
+#include<H:\VIKRANT\GEU PROJECTS\8085-EML\Debugger.h>
 int main()
 {
     int pc;
@@ -28,7 +28,7 @@ int main()
         ifstream code;
         do
         {
-            cout<<"\nAvailable Codes:\n\n1) 8 Bit Addition\t\t\t2) 8 Bit Subtraction\t\t\t3) 8 Bit Multiplication\n4) 8 Bit Division \t\t\t5) Find Largest Element In Array\t6) Find Largest Element In Array\n7) Sort Array In Ascending Order\t8) Sort Array In Descending Order\t9) Custom Code\n\nEnter:\n";
+            cout<<"\nAvailable Codes:\n\n1) 8 Bit Addition\t\t\t2) 8 Bit Subtraction\t\t\t3) 8 Bit Multiplication\n4) 8 Bit Division \t\t\t5) Find Largest Element In Array\t6) Find Smallest Element In Array\n7) Sort Array In Ascending Order\t8) Sort Array In Descending Order\t9) Custom Code\n\nEnter:\n";
             cin>>c;
             switch(c)
             {

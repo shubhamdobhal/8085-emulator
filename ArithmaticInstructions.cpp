@@ -1,11 +1,9 @@
-#include "CustomFunctions.cpp"
-
-
 //10 ADD
 
 void ADD(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H'])+dectohex(registers['L']);
+        string s = dectohex(registers['L']);
+		string address=dectohex(registers['H'])+((s.size()==1)?("0"+s):s);
 		//cout<<memory[address]<<endl;
 		if(memory.find(address)==memory.end())
 		{
@@ -35,7 +33,8 @@ void ADI(string val){
 //12 ADC
 int ADC(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		string s = dectohex(registers['L']);
+		string address=dectohex(registers['H'])+((s.size()==1)?("0"+s):s);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -64,7 +63,8 @@ int ACI(string val){
 //14 SUB
 void SUB(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		string s = dectohex(registers['L']);
+		string address=dectohex(registers['H'])+((s.size()==1)?("0"+s):s);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
@@ -93,7 +93,8 @@ void SUI(string val){
 //16 SBB
 void SBB(char operand){
 	if(operand=='M'){
-		string address=dectohex(registers['H'])+dectohex(registers['L']);
+		string s = dectohex(registers['L']);
+		string address=dectohex(registers['H'])+((s.size()==1)?("0"+s):s);
 		if(memory.find(address)==memory.end())
 		{
 			memory[address]=0;
