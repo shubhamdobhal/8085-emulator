@@ -1,5 +1,5 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\BranchingInstructions.h>
-#include"LogicalInstructions.cpp"
+#include "BranchingInstructions.h"
+#include "LogicalInstructions.cpp"
 void CMA();
 void CMP(char);
 void SET(string,string);

@@ -1,5 +1,5 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\Global.h>
-#include"CustomFunctions.cpp"
+#include "Global.h"
+#include "CustomFunctions.cpp"
 int str_to_int(string);
 string int_to_str(int);
 int indexOf(string,char);

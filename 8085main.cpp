@@ -1,4 +1,4 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\Debugger.h>
+#include "Debugger.h"
 int main(int argc, char** argv)
 {
     int pc;
@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     }while(!(ch=='1' || ch=='2' || ch=='3'));
     if(ch=='3')
     {
+        cout<<"\nThank You for using 8085 Emulator!!\n";
         return 0;
     }
     if(ch=='1')//INPUT FROM FILE
@@ -34,35 +35,56 @@ int main(int argc, char** argv)
         {
             do
             {
-                cout<<"\nAvailable Codes:\n\n1) 8 Bit Addition\t\t\t2) 8 Bit Subtraction\t\t\t3) 8 Bit Multiplication\n4) 8 Bit Division \t\t\t5) Find Largest Element In Array\t6) Find Smallest Element In Array\n7) Sort Array In Ascending Order\t8) Sort Array In Descending Order\t9)Previous Console Written Code\n\nEnter:\n";
+                cout<<"\nAvailable Codes:\n\nA) 8 Bit Addition\t\t\tB) 8 Bit Subtraction\t\t\tC) 8 Bit Multiplication\nD) 8 Bit Division \t\t\tE) Find Largest Element In Array\tF) Find Smallest Element In Array\nG) Sort Array In Ascending Order\tH) Sort Array In Descending Order\tI)Previous Console Written Code\nJ) Previous File Code\n\nEnter:\n";
                 cin>>c;
                 switch(c)
                 {
-                    case '1':code.open("8 Bit Addition.txt",ios::in);
+                    case 'a':
+                    case 'A':code.open("8 Bit Addition.txt",ios::in);
                              break;
-                    case '2':code.open("8 Bit Subtraction.txt",ios::in);
+                    case 'b':
+                    case 'B':code.open("8 Bit Subtraction.txt",ios::in);
                              break;
-                    case '3':code.open("8 Bit Multiplication.txt",ios::in);
+                    case 'c':
+                    case 'C':code.open("8 Bit Multiplication.txt",ios::in);
                              break;
-                    case '4':code.open("8 Bit Division.txt",ios::in);
+                    case 'd':
+                    case 'D':code.open("8 Bit Division.txt",ios::in);
                              break;
-                    case '5':code.open("8 Bit Array Find Largest.txt",ios::in);
+                    case 'e':
+                    case 'E':code.open("8 Bit Array Find Largest.txt",ios::in);
                              break;
-                    case '6':code.open("8 Bit Array Find Smallest .txt",ios::in);
+                    case 'f':
+                    case 'F':code.open("8 Bit Array Find Smallest .txt",ios::in);
                              break;
-                    case '7':code.open("8 Bit Array Sort Ascending.txt",ios::in);
+                    case 'g':
+                    case 'G':code.open("8 Bit Array Sort Ascending.txt",ios::in);
                              break;
-                    case '8':code.open("8 Bit Array Sort Descending.txt",ios::in);
+                    case 'h':
+                    case 'H':code.open("8 Bit Array Sort Descending.txt",ios::in);
                              break;
-                    case '9':code.open("previousConsoleCode.txt",ios::in);
+                    case 'i':
+                    case 'I':code.open("previousConsoleCode.txt",ios::in);
                              break;
+                    case 'j':
+                    case 'J':code.open("previousFileCode.txt",ios::in);
+                             break;
+                    default: cout<<"\nInvalid Input\n";
                 }
-            }while(!(c>='1' && c<='9'));
+            }while(!((c>='A' && c<='J') || (c>='a' && c<='j')));
         }
         //      code.open("inputF.txt",ios::in);
+        ofstream file;
+        if(c!='i' && c!='I')
+        {
+            remove("Dummy.txt");
+            file.open("Dummy.txt",ios::out);
+        }
         while(!code.eof())
         {
             getline(code,line);
+            if(c!='i' && c!='I')
+                file<<line<<endl;
             if(line_number==1)
             {
                 program_counter = line;
@@ -70,33 +92,45 @@ int main(int argc, char** argv)
                 line_number = 2;
                 continue;
             }
-            if(line=="\0")
-            {
-                --number_of_lines;
-            }
             else
             {
-                RAM[program_counter] = line;
-                pc = hextodec(program_counter);
-                if((line.size()==3 || line.size()==4 || line.size()==2) && (check0(line) || line=="HLT" || line=="EOF"))
+                if(line=="\0")
                 {
-                    pc += inst_size[line];
+                    --number_of_lines;
                 }
                 else
                 {
-                    if(insturctionPresent(line.substr(0,indexOf(line,' '))))
-                        pc += inst_size[line.substr(0,indexOf(line,' '))];
+                    RAM[program_counter] = line;
+                    pc = hextodec(program_counter);
+                    if((line.size()==3 || line.size()==4 || line.size()==2) && (check0(line) || line=="HLT" || line=="EOF"))
+                    {
+                        pc += inst_size[line];
+                    }
                     else
                     {
-                        cout<<"Invalid Instruction Present at line number "<<number_of_lines+1<<endl;
-                        exit(0);
+                        if(insturctionPresent(line.substr(0,indexOf(line,' '))))
+                            pc += inst_size[line.substr(0,indexOf(line,' '))];
+                        else
+                        {
+                            cout<<"Invalid Instruction Present at line number "<<number_of_lines+2<<"!"<<endl;
+                            exit(0);
+                        }
                     }
+                    program_counter = dectohex(pc);
                 }
-                program_counter = dectohex(pc);
+                ++number_of_lines;
             }
-            ++number_of_lines;
         }
         code.close();
+        file.close();
+        remove("previousFileCode.txt");
+        code.open("Dummy.txt",ios::in);
+        file.open("previousFileCode.txt",ios::out);
+        while(!code.eof())
+        {
+            getline(code,line);
+            file<<line<<endl;
+        }
         number_of_lines++;
     }
     if(ch=='2')//INPUT FROM CONSOLE
@@ -148,6 +182,11 @@ int main(int argc, char** argv)
     }while(f!='1' && f!='2');
     if(f=='2')
     {
+        set_instructions();
+        reset_flags();
+        reset_registers();
+        program_counter = start_address;
+        stepORrun(2);
         return 0;
     }
     debugger(int(ch-'0'));

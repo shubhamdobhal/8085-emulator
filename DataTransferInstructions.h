@@ -1,5 +1,5 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\LogicalInstructions.h>
-#include"DataTransferInstructions.cpp"
+#include "LogicalInstructions.h"
+#include "DataTransferInstructions.cpp"
 void MOV(char,char);
 void MVI(char,string);
 void LDA(string);

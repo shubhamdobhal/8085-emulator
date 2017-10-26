@@ -1,5 +1,5 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\CustomFunctions.h>
-#include"ArithmaticInstructions.cpp"
+#include "CustomFunctions.h"
+#include "ArithmaticInstructions.cpp"
 void ADD(char);
 void ADI(string);
 int ADC(char);

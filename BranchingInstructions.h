@@ -1,5 +1,5 @@
-#include<H:\VIKRANT\GEU PROJECTS\8085-EML\ArithmaticInstructions.h>
-#include"BranchingInstructions.cpp"
+#include "ArithmaticInstructions.h"
+#include "BranchingInstructions.cpp"
 void JMP(string);
 void JC(string);
 void JNC(string);

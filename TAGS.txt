@@ -1,1 +1,6 @@
-Change header file locations as per the loction you save in.
+REMAINING:
+Minor Bugs
+
+INPUT FILE:
+inputF.txt
+Multiplication Program
