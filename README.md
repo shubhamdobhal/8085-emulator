@@ -1,2 +1,3 @@
 # 8085-emulator
-5th sem mini project
+Implementation of 8085 microprocessor in C++
+Contain arithmetic,logical,load and store instructions with additional debugger support.
