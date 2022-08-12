@@ -74,11 +74,28 @@ In this mode, the data is directly copied from the given address to the register
 - **Indirect addressing mode**</br>
 In this mode, the data is transferred from one register to another by using the address pointed by the register. For example: MOV K, B: means data is transferred from the memory address pointed by the register to the register K.</br>
 
-**Logical instructions Example ** </br>
+**Logical instructions Example** </br>
 - **OPCODE:** CMP
    - **OPERAND:** Memory or Register
    - **Defination:** Compare the register or memory with the accumulator
    - **Explanation:** The contents of the operand (register or memory) are M compared with the contents of the accumulator.
+- **OPCODE:** CMI
+   - **OPERAND:** 8-bit data
+   - **Defination:** Compare immediate with the accumulator
+   - **Explanation:** The second byte data is compared with the contents of the accumulator.
+- **OPCODE:** ANA
+   - **OPERAND:** Memory or Register
+   - **Defination:** Logical AND register or memory with the accumulator
+   - **Explanation:** The contents of the accumulator are logically AND with M the contents of the register or memory, and the result is placed in the accumulator.
+- **OPCODE:** CMI
+   - **OPERAND:** 8-bit data
+   - **Defination:** 	Logical AND immediate with the accumulator
+   - **Explanation:** The contents of the accumulator are logically AND with the 8-bit data and the result is placed in the accumulator.
+
+- **OPCODE:** RLC
+   - **OPERAND:** NONE
+   - **Defination:** Rotate the accumulator left
+   - **Explanation:** Each binary bit of the accumulator is rotated left by one position. Bit D7 is placed in the position of D0 as well as in the Carry flag. CY is modified according to bit D7.
 
 
 
