@@ -56,6 +56,23 @@ These are the set of 5 flip-flops −
 - Carry (C)
 - Its bit position is shown in the following table −
 
+**Instruction register and decoder**</br>
+It is an 8-bit register. When an instruction is fetched from memory then it is stored in the Instruction register. Instruction decoder decodes the information present in the Instruction register.</br>
+
+**Addressing Modes in 8085**</br>
+These are the instructions used to transfer the data from one register to another register, from the memory to the register, and from the register to the memory without any alteration in the content. Addressing modes in 8085 is classified into 5 groups −
+
+- **Immediate addressing mode**</br>
+In this mode, the 8/16-bit data is specified in the instruction itself as one of its operand. For example: MVI K, 20F: means 20F is copied into register K.</br>
+
+- **Register addressing mode**</br>
+In this mode, the data is copied from one register to another. For example: MOV K, B: means data in register B is copied to register K.</br>
+
+- **Direct addressing mode**</br>
+In this mode, the data is directly copied from the given address to the register. For example: LDB 5000K: means the data at address 5000K is copied to register B.</br>
+
+- **Indirect addressing mode**</br>
+In this mode, the data is transferred from one register to another by using the address pointed by the register. For example: MOV K, B: means data is transferred from the memory address pointed by the register to the register K.</br>
 
 
 
