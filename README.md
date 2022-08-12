@@ -98,4 +98,19 @@ In this mode, the data is transferred from one register to another by using the 
    - **Explanation:** Each binary bit of the accumulator is rotated left by one position. Bit D7 is placed in the position of D0 as well as in the Carry flag. CY is modified according to bit D7.
 
 
+**Branching instructions Example** </br>
+All the instruction has OPERAND OF 16 bit, as its a memory location
+- **OPCODE:** JMP
+   - **Defination:** Jump unconditionally
+   - **Explanation:** The program sequence is transferred to the memory address given in the operand.
+- **OPCODE:** JC
+   - **Defination:** Jump on Carry
+   - **FLAG:** CY=1
+   - **Explanation:** The program sequence is transferred to the memory address given in the operand based on the specified flag of the PSW.
+- **OPCODE:** JNZ
+   - **Defination:** Jump on no zero
+   - **FLAG:** Z=0
+   - **Explanation:** The program sequence is transferred to the memory address given in the operand based on the specified flag of the PSW.
+
+
 
