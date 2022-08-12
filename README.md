@@ -74,6 +74,11 @@ In this mode, the data is directly copied from the given address to the register
 - **Indirect addressing mode**</br>
 In this mode, the data is transferred from one register to another by using the address pointed by the register. For example: MOV K, B: means data is transferred from the memory address pointed by the register to the register K.</br>
 
+**Logical instructions Example ** </br>
+- **OPCODE:** CMP
+   - **OPERAND:** Memory or Register
+   - **Defination:** Compare the register or memory with the accumulator
+   - **Explanation:** The contents of the operand (register or memory) are M compared with the contents of the accumulator.
 
 
 
