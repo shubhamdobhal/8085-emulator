@@ -112,5 +112,25 @@ All the instruction has OPERAND OF 16 bit, as its a memory location
    - **FLAG:** Z=0
    - **Explanation:** The program sequence is transferred to the memory address given in the operand based on the specified flag of the PSW.
 
-
+**Arithmetic instructions Example** </br>
+- **OPCODE:** ADD
+   - **OPERAND:** Memory or Register
+   - **Defination:** Add register or memory, to the accumulator
+   - **Explanation:** The contents of the register or memory are added to the contents of the accumulator and the result is stored in the accumulator.Example − ADD K.
+- **OPCODE:** ADC
+   - **OPERAND:** Memory or Register
+   - **Defination:** Add register to the accumulator with carry
+   - **Explanation:** The contents of the register or memory & M the Carry flag are added to the contents of the accumulator and the result is stored in the accumulator.Example − ADC K.
+- **OPCODE:** ADI
+   - **OPERAND:** 8-bit data
+   - **Defination:** 	Add the immediate to the accumulator
+   - **Explanation:** The 8-bit data is added to the contents of the accumulator and the result is stored in the accumulator.Example − ADI 55K
+- **OPCODE:** DAD
+   - **OPERAND:** Reg. pair
+   - **Defination:** 	Add the register pair to H and L registers
+   - **Explanation:** The 16-bit data of the specified register pair are added to the contents of the HL register.Example − DAD K
+- **OPCODE:** INR
+   - **OPERAND:** Memory or Register
+   - **Defination:** 	Increment the register or the memory by 1
+   - **Explanation:** The contents of the designated register or the memory are incremented by 1 and their result is stored at the same place.Example − INR K
 
