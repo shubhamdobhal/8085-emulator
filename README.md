@@ -133,4 +133,17 @@ All the instruction has OPERAND OF 16 bit, as its a memory location
    - **OPERAND:** Memory or Register
    - **Defination:** 	Increment the register or the memory by 1
    - **Explanation:** The contents of the designated register or the memory are incremented by 1 and their result is stored at the same place.Example − INR K
+**Data-transfer instructions  Example** </br>
+- **OPCODE:** MOV
+   - **OPERAND:** Rd, Sc,M, Sc,Dt, M
+   - **Defination:** Copy from the source (Sc) to the destination(Dt)
+   - **Explanation:** This instruction copies the contents of the source register into the destination register without any alteration.Example − MOV K, L
+- **OPCODE:** MVI
+   - **OPERAND:** Rd, data,M, data
+   - **Defination:** Move immediate 8-bit
+   - **Explanation:** The 8-bit data is stored in the destination register or memory.Example − MVI K, 55L
+- **OPCODE:** LDAX
+   - **OPERAND:** B/D Reg. pair
+   - **Defination:** 	Load the accumulator indirect
+   - **Explanation:** The contents of the designated register pair point to a memory location. This instruction copies the contents of that memory location into the accumulator.Example − LDAX K
 
